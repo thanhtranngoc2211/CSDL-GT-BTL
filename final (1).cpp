@@ -47,7 +47,7 @@ class LinkedIn {
     size = asize;
   }
 
-  //Initialize the matrix to zero
+  //Initialize the matrix to -1
   void _init_(){
     if (size != 0){
       for (int i = 0; i < size; i++){
@@ -75,53 +75,47 @@ class LinkedIn {
   }
 
   // Add edges
-  void addEdge(int i, int j, vector<Node> a, Weight w) {
+  void addEdge(string i, string j, vector<Node> a, Weight w) {
+    int node_1 = -1, node_2 = -1;
     // Not add if input same node
     if (i == j){
       printf("Can't execute. Error: Same node\n");
       return;
     }
-    int num_node_exist = 0;
-    // Count node exist
+    // Check id
     for (int ite = 0; ite < a.size(); ite++){
-      if (a[ite].id == i || a[ite].id == j){
-        num_node_exist++;
+      if ((i == a[ite].name || j == a[ite].name) && node_1 == -1){
+        node_1 = a[ite].id;
+        printf("Node_1 = %d",node_1);
       }
+      else if (i == a[ite].name || j == a[ite].name)
+        node_2 = a[ite].id;
+        printf("Node_2 = %d", node_2);
     }
     // Check successfully, add
-    if (num_node_exist == 2){
-      adjMatrix.at(i).at(j) = w;
-      adjMatrix.at(j).at(i) = w;
+    if (node_1 != -1 && node_2 != -1){
+      adjMatrix.at(node_1).at(node_2) = w;
+      adjMatrix.at(node_2).at(node_1) = w;
+    }
+    else { 
+      printf("Error");
     }
   }
 
-//  void addEdge(string name1,string name2,vector<Node> a, Weight w){
-//      int x,y;
-//    if (name1 == name2){
-//      printf("Can't execute. Error: Same node\n");
-//      return;
-//    }
-//    int num_node_exist = 0;
-//    // Count node exist
-//    for (int i = 0; i < a.size(); i++){
-//        for (int j = 0; j < a.size();j++){
-//            if (a[i].name == name1 && a[j].name == name2){
-//                x = i; y = j;
-//                num_node_exist++;
-//            }
-//        }
-//    }
-//    // Check successfully, add
-//    if (num_node_exist == 1){
-//      adjMatrix.at(x).at(y) = w;
-//      adjMatrix.at(y).at(x) = w;
-//    }
-//  }
-
   // Remove edges
-  void removeEdge(int i, int j) {
-    adjMatrix.at(i).at(j) = {-1,-1};
-    adjMatrix.at(j).at(i) = {-1,-1};
+  void removeEdge(string i, string j, vector<Node>a) {
+    int node_1 = -1, node_2 = -1;
+    for (int ite = 0; ite < a.size(); ite++){
+      if (i == a[ite].name && node_1 == -1){
+        node_1 = a[ite].id;
+      }
+      else
+        node_2 = a[ite].id;
+    }
+    if (node_1 != -1 && node_2 != -1){
+      adjMatrix.at(node_1).at(node_2) = {-1,-1};
+      adjMatrix.at(node_2).at(node_1) = {-1,-1};
+    }
   }
 
   // Print the martix
@@ -134,49 +128,33 @@ class LinkedIn {
     }
   }
 
-  // Search
-  void searchDOB(vector<Node> a, string nameSearch){
-    for (int i = 0; i < a.size(); i++){
-      if (nameSearch == a[i].name){
-        cout << "DOB: " + a[i].dob << endl;
-      }
-    }
-  }
-
   // Search fellow
   void searchFellow(vector<Node> a, string nameSearch){
     string work;
     vector<string> fellow;
-    bool found = false;
-    // Check node validity
+    // Search work
     for (int i = 0; i < a.size(); i++){
       if (nameSearch == a[i].name){
         work = a[i].work;
-        found = true;
         break;
       }
     }
-    if (found){
-      // If work together & nameSearch is not vector[i].name --> print out
-      for (int i = 0; i < a.size(); i++){
-        if (work == a[i].work && nameSearch != a[i].name){
-          fellow.push_back(a[i].name);
-        }
-      }
-      // No fellow found
-      if (fellow.size() == 0){
-        cout << "Not found any fellow\n";
-      }
-      else {
-        cout << "Fellows: ";
-        for (int i = 0; i < fellow.size(); i++){
-          cout << fellow[i] + " ";
-        }
-        cout << endl;
+    // If work together & nameSearch is not vector[i].name --> print out
+    for (int i = 0; i < a.size(); i++){
+      if (work == a[i].work && nameSearch != a[i].name){
+        fellow.push_back(a[i].name);
       }
     }
+    // No fellow found
+    if (fellow.size() == 0){
+      cout << "Not found any fellow\n";
+    }
     else {
-      cout << "Not found searched name\n";
+      cout << "Fellows: ";
+      for (int i = 0; i < fellow.size(); i++){
+        cout << fellow[i] + " ";
+      }
+      cout << endl;
     }
   }
 
@@ -190,42 +168,46 @@ class LinkedIn {
         cout << "- So dien thoai: " + a[i].number << endl;
         cout << "- Field: " + a[i].field << endl;
         cout << "- Noi lam viec: " + a[i].work << endl;
-        cout << "- " ;
-        searchFellow(a,nameSearch);
+        cout << "- " ; searchFellow(a,nameSearch);
         exist = true;
+        break;
       }
       if(nameSearch == a[i].work){
-        cout << a[i].name << " ";
+        cout << "People work at here: ";
+        for (int ite = i; ite < a.size(); ite++){
+          if (nameSearch == a[ite].work)
+           cout << a[ite].name + " ";
+        }
+        cout << endl;
         exist = true;
+        break;
       }
     }
-    if(exist){}
-    else cout << "Khong ton tai" <<endl;
+    if(!exist)
+      cout << "Khong ton tai" <<endl;
   }
 
-    void relationship(vector<Node> a, string nameSearch1,string nameSearch2){
-        bool found = false;
-        for (int i = 0; i < a.size(); i++){
-            for(int j = 0;j < a.size();j++){
-                if(a[i].name == nameSearch1 && a[j].name == nameSearch2){
-                    if(adjMatrix[i][j].years == -1){
-                        cout << nameSearch1 << " va " << nameSearch2 << ":" <<" Khong quen nhau"<< endl;
-                    }
-                    else{
-                    cout << nameSearch1 << " va " << nameSearch2 << ":" << endl;
-                    cout << "- So nam lam viec: "<< adjMatrix[i][j].years <<" nam" <<endl;
-                    cout << "- So bai bao thuc hien cung nhau: " << adjMatrix[i][j].papers <<" bai"<<endl ;
-                    }
-                    found = true;
-                    break;
-                }
-            }
-        }
-        if(found){
-
-        }
-        else cout << "Not found human\n";
-    }
+  void relationship(vector<Node> a, string nameSearch1,string nameSearch2){
+      bool found = false;
+      for (int i = 0; i < a.size(); i++){
+          for(int j = 0;j < a.size();j++){
+              if(a[i].name == nameSearch1 && a[j].name == nameSearch2){
+                  if(adjMatrix[i][j].years == -1){
+                      cout << nameSearch1 << " va " << nameSearch2 << ":" <<" Khong quen nhau"<< endl;
+                  }
+                  else{
+                  cout << nameSearch1 << " va " << nameSearch2 << ":" << endl;
+                  cout << "- So nam lam viec: "<< adjMatrix[i][j].years <<" nam" <<endl;
+                  cout << "- So bai bao thuc hien cung nhau: " << adjMatrix[i][j].papers <<" bai"<<endl ;
+                  }
+                  found = true;
+                  break;
+              }
+          }
+      }
+      if(!found)
+        cout << "Not found human\n";
+  }
 };
 
 
@@ -233,7 +215,7 @@ class LinkedIn {
 int main() {
   LinkedIn g;
   Node man;
-  int x,y;
+  string x,y;
   vector<Node> a;
   string z;
   Weight w;
@@ -264,7 +246,7 @@ int main() {
         cout << "Nhap field: "; cin >> man.field;
         cout << "Nhap noi lam viec: "; cin >> man.work;
         a.push_back(man);
-
+        printf("%d", man.id);
     }
     if(control == 2){
         cout << "Node dau: "; cin >> x;
@@ -278,7 +260,7 @@ int main() {
     if(control == 3){
         cout << "Node dau: "; cin >> x;
         cout << "Node cuoi: ";cin >> y;
-        g.removeEdge(x,y);
+        g.removeEdge(x,y,a);
         cout << "Da xoa canh giua Node " << x << " va " << y << endl;
     }
     if(control == 4){
@@ -292,45 +274,5 @@ int main() {
         open = false;
     }
   }
-
-  g.addNode();
-  man.id = 0;
-  man.dob = "22/11/2000";
-  man.name = "thanh";
-  man.email = "thanhtranngoc2211@gmail.com";
-  man.field = "AI";
-  man.number = "0822455477";
-  man.work = "NAVER";
-  a.push_back(man);
-  // 2
-  g.addNode();
-  man.id = 1;
-  man.dob = "17/09/2000";
-  man.name = "huyen";
-  man.email = "huyen.dt@gmail.com";
-  man.field = "Marketing";
-  man.number = "0335428632";
-  man.work = "PG";
-  a.push_back(man);
-  // 3
-  g.addNode();
-  man.id = 2;
-  man.dob = "10/11/2003";
-  man.name = "linh";
-  man.email = "linh.ngu@gmail.com";
-  man.field = "Law";
-  man.number = "0915234856";
-  man.work = "PG";
-  a.push_back(man);
-  w.years = 2;
-  w.papers = 3;
-
-  // Action
-  g.addEdge(0,1,a,w);
-  g.relationship(a,"huyen","thanh");
-  g.toString();
-  g.searchDOB(a, "huyen");
-  g.searchFellow(a, "linh");
-  printf("No more to display");
   return 0;
 }
