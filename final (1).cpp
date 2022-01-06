@@ -30,6 +30,77 @@ int main() {
   g._init_();
   bool open = true;
 
+  g.addNode();
+  man.id = 0;
+  man.name = "thanh";
+  man.dob = "22/11/2000";
+  man.email = "thanhtranngoc2211@gmail.com";
+  man.number = "0822455477";
+  man.field = "AI";
+  man.work = "NAVER";
+  a.push_back(man);
+
+  g.addNode();
+  man.id = 1;
+  man.name = "linh";
+  man.dob = "10/11/2003";
+  man.email = "linh.ngu@gmail.com";
+  man.number = "0915273456";
+  man.field = "law";
+  man.work = "NAVER";
+  a.push_back(man);
+
+  g.addNode();
+  man.id = 2;
+  man.name = "huyen";
+  man.dob = "17/09/2000";
+  man.email = "huyen.dt@gmail.com";
+  man.number = "0335428632";
+  man.field = "marketing";
+  man.work = "PG";
+  a.push_back(man);
+
+  g.addNode();
+  man.id = 3;
+  man.name = "van";
+  man.dob = "30/10/1996";
+  man.email = "van@gmail.com";
+  man.number = "0915874352";
+  man.field = "home";
+  man.work = "NAVER";
+  a.push_back(man);
+
+  g.addNode();
+  man.id = 4;
+  man.name = "la";
+  man.dob = "1/10/2000";
+  man.email = "laviethai@gmail.com";
+  man.number = "0912514567";
+  man.field = "dev";
+  man.work = "lotus";
+  a.push_back(man);
+
+  w.papers = 10;
+  w.years = 18;
+  name_1 = "thanh";
+  name_2 = "linh";
+  g.addEdge(name_1,name_2,a,w);
+  w.papers = 15;
+  w.years = 3;
+  g.addEdge("thanh","huyen",a,w);
+  w.papers = 0;
+  w.years = 3;
+  g.addEdge("linh","van",a,w);
+  w.papers = 3;
+  w.years = 3;
+  g.addEdge("la","huyen",a,w);
+  w.papers = 0;
+  w.years = 3;
+  g.addEdge("thanh","van",a,w);
+  w.papers = 0;
+  w.years = 2;
+  g.addEdge("la","van",a,w);
+
   while (open){
     cout << "----------------------------------" <<endl;
     cout << "an 1 de them nut"<<endl;
@@ -53,7 +124,6 @@ int main() {
         cout << "Nhap field: "; cin >> man.field;
         cout << "Nhap noi lam viec: "; cin >> man.work;
         a.push_back(man);
-        printf("%d", man.id);
     }
     if(control == 2){
         cout << "Node thu nhat: "; cin >> name_1;
@@ -62,13 +132,11 @@ int main() {
         cout << "- so nam: ";cin >> w.years;
         cout << "- so bai bao: ";cin >> w.papers;
         g.addEdge(name_1,name_2,a,w);
-        cout << "Da them canh giua Node " << name_1 << " va " << name_2 << endl;
     }
     if(control == 3){
         cout << "Node thu nhat: "; cin >> name_1;
         cout << "Node thu hai: ";cin >> name_2;
         g.removeEdge(name_1,name_2,a);
-        cout << "Da xoa canh giua Node " << name_1 << " va " << name_2 << endl;
     }
     if(control == 4){
         cout << "Nhap ten nguoi/ten noi lam viec: "; cin >> name_1;
