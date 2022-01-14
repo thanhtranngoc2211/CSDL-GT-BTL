@@ -23,17 +23,6 @@ class LinkedIn {
     size = asize;
   }
 
-  //Initialize the matrix to -1
-  void _init_(){
-    if (size != 0){
-      for (int i = 0; i < size; i++){
-        for (int j = 0; j < size; j++){
-          adjMatrix.at(i).at(j) = {-1,-1};
-        }
-      }
-    }
-  }
-
   // Add nodes
   void addNode(){
     size = size + 1;
@@ -110,22 +99,22 @@ class LinkedIn {
     }
   }
 
-  vector<int> dfs(std::vector<Node> a, int node_id, std::vector<bool> isChecked, vector<int> stack){
+  vector<int> bfs(std::vector<Node> a, int node_id, std::vector<bool> isChecked, vector<int> queue){
     isChecked.at(node_id) = true;
       for (int ite = 0; ite < a.size(); ite++){
-        if (stack.size() > a.size() - 2)
+        if (queue.size() > a.size() - 2)
           break;
         if (adjMatrix.at(node_id).at(ite).years != -1 && !isChecked.at(a[ite].id)){
           isChecked.at(a[ite].id) = true;
-          stack.push_back(a[ite].id);
-          stack = dfs(a, a[ite].id, isChecked, stack);
+          queue.push_back(a[ite].id);
+          queue = bfs(a, a[ite].id, isChecked, queue);
         }
     }
-    return stack;
+    return queue;
   }
 
   void searchFellow(std::vector<Node> a, std::string nameSearch){
-    std::vector<int> stack;
+    std::vector<int> queue;
     std::vector<bool> isChecked;
     std::vector<string> fellows;
     isChecked.assign(a.size(), false);
@@ -140,11 +129,15 @@ class LinkedIn {
       }
     }
     if (found == true){
-      stack = dfs(a, node_id, isChecked, stack);
+      queue = bfs(a, node_id, isChecked, queue);
+      for (int ite = 0; ite < queue.size(); ite++) {
+        cout << queue.at(ite) << " ";
+      }
+      cout <<endl;
       // Search each node from stack
-      for (int ite = 0; ite < stack.size(); ite++){
-        if (a[node_id].work == a[stack.at(ite)].work){
-          fellows.push_back(a[stack.at(ite)].name);
+      for (int ite = 0; ite < queue.size(); ite++){
+        if (a[node_id].work == a[queue.at(ite)].work){
+          fellows.push_back(a[queue.at(ite)].name);
         }
       }
       if (fellows.size() == 0)
@@ -162,63 +155,57 @@ class LinkedIn {
     }
   }
 
-  void SearchInfo(std::vector<Node> a, std::string nameSearch){
-    bool exist = false;
+  std::vector<Node> SearchCompany(std::vector<Node> a, std::string nameSearch){
+    std::vector<Node> companiers;
     for (int i = 0; i < a.size(); i++){
-      if (nameSearch == a[i].name){
-        cout << "Thong tin cua " << nameSearch << ":" << endl;
-        cout << "- DOB: " + a[i].dob << endl;
-        cout << "- Email: " + a[i].email <<endl;
-        cout << "- So dien thoai: " + a[i].number << endl;
-        cout << "- Field: " + a[i].field << endl;
-        cout << "- Noi lam viec: " + a[i].work << endl;
-        cout << "- " ; searchFellow(a,nameSearch);
-        exist = true;
-        break;
-      }
       if(nameSearch == a[i].work){
         cout << "People work at here: ";
         for (int ite = i; ite < a.size(); ite++){
           if (nameSearch == a[ite].work)
-           cout << a[ite].name + " ";
+           cout << a.at(ite).name << "(" << a.at(ite).id << ")" << " ";
+           companiers.push_back(a.at(ite));
         }
         cout << endl;
-        exist = true;
-        break;
+        return companiers;
       }
     }
-    if(!exist)
-      cout << "Khong ton tai" <<endl;
+    cout << "Khong ton tai" <<endl;
+    return companiers;
   }
 
-  void relationship(std::vector<Node> a, std::string i, std::string j){
-    int node_1 = -1, node_2 = -1;
-    // Not add if input same node
-    if (i == j){
-      printf("Can't execute. Error: Same node\n");
-      return;
-    }
+  void relationship(std::vector<Node> a,int id, std::string name){
+    int nodeId = -1;
     // Search id
     for (int ite = 0; ite < a.size(); ite++){
-      if ((i == a[ite].name || j == a[ite].name) && node_1 == -1){
-        node_1 = a[ite].id;
+      if (name == a[ite].name){
+        nodeId = ite;
       }
-      else if (i == a[ite].name || j == a[ite].name)
-        node_2 = a[ite].id;
     }
-    // Found ids
-    if(node_1 != -1 && node_2 != -1){
-      if(adjMatrix[node_1][node_2].years == -1){
-        cout << i << " va " << j << ":" <<" Khong quen nhau"<< endl;
+    // Found id
+    if(nodeId != -1){
+      if(adjMatrix[id][nodeId].years == -1){
+        cout << "ban va " << a.at(nodeId).name << ":" <<" Khong quen nhau"<< endl;
       }
       else{
-        cout << i << " va " << j << ":" << endl;
-        cout << "- So nam lam viec: "<< adjMatrix[node_1][node_2].years <<" nam" <<endl;
-        cout << "- So bai bao thuc hien cung nhau: " << adjMatrix[node_1][node_2].papers <<" bai"<<endl ;
+        cout << "ban va " << a.at(nodeId).name << ":" << endl;
+        cout << "- So nam lam viec: "<< adjMatrix[id][nodeId].years <<" nam" <<endl;
+        cout << "- So bai bao thuc hien cung nhau: " << adjMatrix[id][nodeId].papers <<" bai"<<endl ;
       }
     }
     else
       cout << "Not found human\n";
+  }
+
+  void showBrief(vector<Node> companiers, int id){
+    for (int i = 0; i < companiers.size(); i++){
+      if (id == companiers.at(i).id){
+        cout << "Name: " << companiers.at(i).name << endl;
+        cout << "Field: " << companiers.at(i).field << endl;
+        cout << "Number: " << companiers.at(i).number << endl;
+        return;
+      }
+    }
+    cout << "Not found id" << endl;
   }
 };
 
