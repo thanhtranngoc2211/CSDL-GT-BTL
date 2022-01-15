@@ -6,6 +6,7 @@
 #include "Weight.h"
 #include <string>
 #include <iostream>
+#include <tuple>
 
 using namespace std;
 
@@ -99,23 +100,34 @@ class LinkedIn {
     }
   }
 
-  vector<int> bfs(std::vector<Node> a, int node_id, std::vector<bool> isChecked, vector<int> queue){
-    isChecked.at(node_id) = true;
+  tuple <vector<int>, vector<int>> bfs(std::vector<Node> a, int node_id, std::vector<bool> visited, vector<int> queue, vector<int> searchOrder){
+    int next_node;
+    visited.at(node_id) = true;
       for (int ite = 0; ite < a.size(); ite++){
-        if (queue.size() > a.size() - 2)
-          break;
-        if (adjMatrix.at(node_id).at(ite).years != -1 && !isChecked.at(a[ite].id)){
-          isChecked.at(a[ite].id) = true;
+        //if (queue.size() == a.size() - 1){
+        //  break;
+        //  return queue;
+        //}
+        if (adjMatrix.at(node_id).at(ite).years != -1 && !visited.at(a[ite].id)){
+          visited.at(a[ite].id) = true;
           queue.push_back(a[ite].id);
-          queue = bfs(a, a[ite].id, isChecked, queue);
         }
     }
-    return queue;
+    if (queue.size() == 0) 
+      return make_tuple(queue, searchOrder);
+    else {
+      next_node = queue.at(0);
+      searchOrder.push_back(next_node);
+      queue.erase(queue.begin());
+      tie(queue, searchOrder) = bfs(a, next_node, visited, queue, searchOrder);
+    }
+    return make_tuple(queue, searchOrder);
   }
 
   void searchFellow(std::vector<Node> a, std::string nameSearch){
     std::vector<int> queue;
     std::vector<bool> isChecked;
+    vector<int> searchOrder;
     std::vector<string> fellows;
     isChecked.assign(a.size(), false);
     int node_id;
@@ -129,22 +141,22 @@ class LinkedIn {
       }
     }
     if (found == true){
-      queue = bfs(a, node_id, isChecked, queue);
-      for (int ite = 0; ite < queue.size(); ite++) {
-        cout << queue.at(ite) << " ";
+      tie(queue, searchOrder) = bfs(a, node_id, isChecked, queue, searchOrder);
+      for (int ite = 0; ite < searchOrder.size(); ite++) {
+        cout << searchOrder.at(ite) << " ";
       }
       cout <<endl;
-      // Search each node from stack
-      for (int ite = 0; ite < queue.size(); ite++){
-        if (a[node_id].work == a[queue.at(ite)].work){
-          fellows.push_back(a[queue.at(ite)].name);
+      // Search each node from queue
+      for (int ite = 0; ite < searchOrder.size(); ite++){
+        if (a.at(node_id).work == a.at(searchOrder.at(ite)).work){
+          fellows.push_back(a.at(searchOrder.at(ite)).name);
         }
       }
       if (fellows.size() == 0)
         cout << "No fellow found" << endl;
       else {
         cout << "Fellows: ";
-        for (int ite =  0; ite < fellows.size(); ite++){
+        for (int ite = 0; ite < fellows.size(); ite++){
           cout << fellows.at(ite) << " ";
         }
         cout << endl;
