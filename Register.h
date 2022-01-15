@@ -10,15 +10,16 @@ using namespace std;
 void register_user(vector<Node>a, LinkedIn g){
     Node man;
     g.addNode();
-    cout << "Ten cua ban: "; std::getline(std::cin,man.name);
-    cout << "Ngay thang nam sinh: "; std::getline(std::cin,man.dob);
-    cout << "Email: "; std::getline(std::cin,man.email);
-    cout << "Chuyen nganh: "; std::getline(std::cin,man.field);
-    cout << "So dien thoai: "; std::getline(std::cin,man.number);
-    cout << "Noi lam viec: "; std::getline(std::cin,man.work);
+    cout << "Your name: "; std::getline(std::cin,man.name);
+    cout << "Date of birth: "; std::getline(std::cin,man.dob);
+    cout << "Your email: "; std::getline(std::cin,man.email);
+    cout << "Your field: "; std::getline(std::cin,man.field);
+    cout << "Your number: "; std::getline(std::cin,man.number);
+    cout << "Your work: "; std::getline(std::cin,man.work);
     man.id = a.size();
     a.push_back(man);
     cout << "Register successfully";
 }
+
 
 #endif
