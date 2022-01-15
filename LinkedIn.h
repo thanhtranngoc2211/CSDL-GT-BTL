@@ -10,11 +10,17 @@
 
 using namespace std;
 
+struct searchOrder{
+  int id;
+  int parent;
+};
+
+
 class LinkedIn {
   public:
     std::vector<std::vector<Weight>> adjMatrix;
     int size;
-    Node a;
+    std::vector<Node> a;
 
   LinkedIn(int asize=0){
     adjMatrix.resize(asize);
@@ -63,30 +69,10 @@ class LinkedIn {
     if (node_1 != -1 && node_2 != -1){
       adjMatrix.at(node_1).at(node_2) = w;
       adjMatrix.at(node_2).at(node_1) = w;
-      cout << "Successfully add relation between" + name_1 + "and" + name_2<<endl;
+      cout << "Successfully add relation between" << " " << name_1 <<" " << "and" << " " << name_2 <<endl;
     }
     else { 
       printf("Error");
-    }
-  }
-
-  // Remove edges
-  void removeEdge(std::string i, std::string j, std::vector<Node>a) {
-    string name_1, name_2;
-    int node_1 = -1, node_2 = -1;
-    for (int ite = 0; ite < a.size(); ite++){
-      if (i == a[ite].name && node_1 == -1){
-        node_1 = a[ite].id;
-        name_1 = a.at(ite).name;
-      }
-      else
-        node_2 = a[ite].id;
-        name_2 = a.at(ite).name;
-    }
-    if (node_1 != -1 && node_2 != -1){
-      adjMatrix.at(node_1).at(node_2) = {-1,-1};
-      adjMatrix.at(node_2).at(node_1) = {-1,-1};
-      cout << "Successfully delete relation between" + name_1 + "and" + name_2;
     }
   }
 
@@ -100,8 +86,10 @@ class LinkedIn {
     }
   }
 
-  tuple <vector<int>, vector<int>> bfs(std::vector<Node> a, int node_id, std::vector<bool> visited, vector<int> queue, vector<int> searchOrder){
-    int next_node;
+  // BFS
+  tuple <vector<searchOrder>, vector<searchOrder>> bfs(std::vector<Node> a, int node_id, std::vector<bool> visited, vector<searchOrder> queue, vector<searchOrder> order){
+    searchOrder next_node;
+    searchOrder current_node;
     visited.at(node_id) = true;
       for (int ite = 0; ite < a.size(); ite++){
         //if (queue.size() == a.size() - 1){
@@ -110,24 +98,26 @@ class LinkedIn {
         //}
         if (adjMatrix.at(node_id).at(ite).years != -1 && !visited.at(a[ite].id)){
           visited.at(a[ite].id) = true;
-          queue.push_back(a[ite].id);
+          current_node.id = a.at(ite).id;
+          current_node.parent = node_id;
+          queue.push_back(current_node);
         }
     }
     if (queue.size() == 0) 
-      return make_tuple(queue, searchOrder);
+      return make_tuple(queue, order);
     else {
       next_node = queue.at(0);
-      searchOrder.push_back(next_node);
+      order.push_back(next_node);
       queue.erase(queue.begin());
-      tie(queue, searchOrder) = bfs(a, next_node, visited, queue, searchOrder);
+      tie(queue, order) = bfs(a, next_node.id, visited, queue, order);
     }
-    return make_tuple(queue, searchOrder);
+    return make_tuple(queue, order);
   }
 
   void searchFellow(std::vector<Node> a, std::string nameSearch){
-    std::vector<int> queue;
+    std::vector<searchOrder> queue;
     std::vector<bool> isChecked;
-    vector<int> searchOrder;
+    vector<searchOrder> order;
     std::vector<string> fellows;
     isChecked.assign(a.size(), false);
     int node_id;
@@ -141,15 +131,11 @@ class LinkedIn {
       }
     }
     if (found == true){
-      tie(queue, searchOrder) = bfs(a, node_id, isChecked, queue, searchOrder);
-      for (int ite = 0; ite < searchOrder.size(); ite++) {
-        cout << searchOrder.at(ite) << " ";
-      }
-      cout <<endl;
+      tie(queue, order) = bfs(a, node_id, isChecked, queue, order);
       // Search each node from queue
-      for (int ite = 0; ite < searchOrder.size(); ite++){
-        if (a.at(node_id).work == a.at(searchOrder.at(ite)).work){
-          fellows.push_back(a.at(searchOrder.at(ite)).name);
+      for (int ite = 0; ite < order.size(); ite++){
+        if (a.at(node_id).work == a.at(order.at(ite).id).work){
+          fellows.push_back(a.at(order.at(ite).id).name);
         }
       }
       if (fellows.size() == 0)
@@ -186,26 +172,39 @@ class LinkedIn {
   }
 
   void relationship(std::vector<Node> a,int id, std::string name){
-    int nodeId = -1;
-    // Search id
-    for (int ite = 0; ite < a.size(); ite++){
-      if (name == a[ite].name){
-        nodeId = ite;
+    int node_id = -1;
+    int order_id = -1;
+    std::vector<searchOrder> queue;
+    std::vector<bool> isChecked;
+    isChecked.assign(a.size(), false);
+    vector<searchOrder> order;
+    // Search name
+    tie(queue, order) = bfs(a, id, isChecked, queue, order);
+    for (int ite = 0; ite < order.size(); ite++){
+      cout << order.at(ite).parent << " ";
+    }
+    cout << endl;
+    for (int ite = 0; ite < order.size(); ite++){
+      if (name == a.at(order.at(ite).id).name){
+        node_id = order.at(ite).id;
+        order_id = ite;
+        break;
       }
     }
     // Found id
-    if(nodeId != -1){
-      if(adjMatrix[id][nodeId].years == -1){
-        cout << "ban va " << a.at(nodeId).name << ":" <<" Khong quen nhau"<< endl;
+    if(node_id != -1){
+      if(adjMatrix[id][node_id].years == -1){
+        cout << "You and " << a.at(node_id).name <<" don't know each other"<< endl;
+        cout << "Mutual friend: " << a.at(order.at(order_id).parent).name << endl;
       }
       else{
-        cout << "ban va " << a.at(nodeId).name << ":" << endl;
-        cout << "- So nam lam viec: "<< adjMatrix[id][nodeId].years <<" nam" <<endl;
-        cout << "- So bai bao thuc hien cung nhau: " << adjMatrix[id][nodeId].papers <<" bai"<<endl ;
+        cout << "You and " << a.at(node_id).name << ":" << endl;
+        cout << "- Years work: "<< adjMatrix[id][node_id].years <<" years" <<endl;
+        cout << "- Papers collaborated: " << adjMatrix[id][node_id].papers <<" papers"<<endl ;
       }
     }
     else
-      cout << "Not found human\n";
+      cout << "Haven't known each other\n";
   }
 
   void showBrief(vector<Node> companiers, int id){
