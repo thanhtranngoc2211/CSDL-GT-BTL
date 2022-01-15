@@ -210,6 +210,97 @@ tuple <LinkedIn, vector<Node>> fetchData(LinkedIn g, vector<Node> a) {
     man.work = "Pineapple";
     a.push_back(man);
 
+    g.addNode();
+    man.id = 60;
+    man.name = "Nguyen Duc An";
+    man.dob = "28/07/2001";
+    man.email = "an.nd01@gmail.com";
+    man.number = "0775834279";
+    man.field = "Engineer";
+    man.work = "NAVER";
+    a.push_back(man);
+    
+    g.addNode();
+    man.id = 61;
+    man.name = "Nguyen Ngoc Duong";
+    man.dob = "04/11/2001";
+    man.email = "duong.nn@gmail.com";
+    man.number = "0383458354";
+    man.field = "Engineer";
+    man.work = "NAVER";
+    a.push_back(man);
+  
+    g.addNode();
+    man.id = 62;
+    man.name = "Quang Thanh Dat";
+    man.dob = "23/05/2001";
+    man.email = "datqt@gmail.com";
+    man.number = "0756151836";
+    man.field = "Engineer";
+    man.work = "NAVER";
+    a.push_back(man);
+    
+    g.addNode();
+    man.id = 63;
+    man.name = "Nguyen Minh Hieu";
+    man.dob = "24/12/2001";
+    man.email = "hieu.nm@gmail.com";
+    man.number = "0383458354";
+    man.field = "Engineer";
+    man.work = "Samsing";
+    a.push_back(man);
+    
+    g.addNode();
+    man.id = 61;
+    man.name = "Nguyen Ngoc Duong";
+    man.dob = "04/11/2001";
+    man.email = "duong.nn@gmail.com";
+    man.number = "0383458354";
+    man.field = "Engineer";
+    man.work = "Samsing";
+    a.push_back(man);
+    
+    g.addNode();
+    man.id = 61;
+    man.name = "Nguyen Ngoc Duong";
+    man.dob = "04/11/2001";
+    man.email = "duong.nn@gmail.com";
+    man.number = "0383458354";
+    man.field = "Engineer";
+    man.work = "Samsing";
+    a.push_back(man);
+    
+    g.addNode();
+    man.id = 61;
+    man.name = "Nguyen Ngoc Duong";
+    man.dob = "04/11/2001";
+    man.email = "duong.nn@gmail.com";
+    man.number = "0383458354";
+    man.field = "Engineer";
+    man.work = "Samsing";
+    a.push_back(man);
+    
+    g.addNode();
+    man.id = 61;
+    man.name = "Nguyen Ngoc Duong";
+    man.dob = "04/11/2001";
+    man.email = "duong.nn@gmail.com";
+    man.number = "0383458354";
+    man.field = "Engineer";
+    man.work = "Samsing";
+    a.push_back(man);
+    g.addNode();
+    
+    man.id = 61;
+    man.name = "Nguyen Ngoc Duong";
+    man.dob = "04/11/2001";
+    man.email = "duong.nn@gmail.com";
+    man.number = "0383458354";
+    man.field = "Engineer";
+    man.work = "Samsing";
+    a.push_back(man);
+    
+    
     w.papers = 10;
     w.years = 18;
     g.addEdge("Tran Ngoc Thanh","Tran Mai Linh",a,w);
