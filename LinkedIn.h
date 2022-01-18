@@ -47,35 +47,31 @@ class LinkedIn {
   }
 
   // Add edges
-  void addEdge(std::string i, std::string j, std::vector<Node> a, Weight w) {
-    int node_1 = -1, node_2 = -1;
-    string name_1, name_2;
+  void addEdge(int id, std::string j, std::vector<Node> a, Weight w) {
+    int node_2 = -1;
+    string name_2;
     // Not add if input same node
-    if (i == j){
+    if (a.at(id).name == j){
       printf("Can't execute. Error: Same node\n");
       return;
     }
     // Check id
     for (int ite = 0; ite < a.size(); ite++){
-      if ((i == a.at(ite).name || j == a.at(ite).name) && node_1 == -1){
-        node_1 = a.at(ite).id;
-        name_1 = a.at(ite).name;
-      }
-      else if (i == a.at(ite).name || j == a.at(ite).name)
+      if (j == a.at(ite).name && a.at(ite).id != id){
         node_2 = a.at(ite).id;
         name_2 = a.at(ite).name;
+      }
     }
     // Check successfully, add
-    if (node_1 != -1 && node_2 != -1){
-      adjMatrix.at(node_1).at(node_2) = w;
-      adjMatrix.at(node_2).at(node_1) = w;
-      cout << "Successfully add relation between" << " " << name_1 <<" " << "and" << " " << name_2 <<endl;
+    if (node_2 != -1){
+      adjMatrix.at(id).at(node_2) = w;
+      adjMatrix.at(node_2).at(id) = w;
+      cout << "Successfully add relation between" << " " << a.at(id).name <<" " << "and" << " " << name_2 <<endl;
     }
     else { 
       printf("Error");
     }
   }
-
   // Print the martix
   void toString() {
     for (int i = 0; i < size; i++) {
