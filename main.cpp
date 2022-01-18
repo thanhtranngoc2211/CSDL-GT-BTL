@@ -40,7 +40,7 @@ int main() {
 
   // Load data
   cout << "-----------Fetching Data----------" <<endl;
-  fetchData(g,a);
+  tie(g,a) = fetchData(g,a);
 
   while (open){
     cout << "-------------LinkedIn-------------" <<endl;
@@ -56,6 +56,7 @@ int main() {
       logIn = true;
       cout << "--------------Your email--------------" <<endl;
       getline(std::cin,email);
+      fflush(stdin);
       id = SearchEmail(email, a);
       if(SearchEmail(email, a) == -1){
         cout << "Not found user" << endl;
@@ -69,17 +70,21 @@ int main() {
           cout << ". Delete this user" <<endl;
           cout << "11. Log out" << endl;
           cin >> control;
+          fflush(stdin);
           if (control == 1){
             showInfo(a, id);
           }
           if (control == 2){
             cout << "Nhap ten ban cua ban: " << endl;
             getline(std::cin,name);
+            fflush(stdin);
             cout << "Nhap so nam lam viec cung nhau: " <<endl;
             cin >> w.years;
+            fflush(stdin);
             cout << "Nhap so bai bao cung thuc hien: " <<endl;
             cin >>w.papers;
-            g.addEdge(a.at(id).name, name, a, w);
+            fflush(stdin);
+            g.addEdge(id, name, a, w);
           }
           if (control == 3){
             g.searchFellow(a, a.at(id).name);
@@ -87,6 +92,7 @@ int main() {
           if (control == 4){
             cout << "Nhap ten nguoi ban muon tim: " << endl;
             getline(std::cin,name);
+            fflush(stdin);
             g.relationship(a, id, name);
           }
           if (control == 11){
@@ -101,6 +107,7 @@ int main() {
     if(control == 3){
       cout << "Nhap ten cong ty: " <<endl;
       getline(std::cin,name);
+      fflush(stdin);
       companiers = g.SearchCompany(a, name);
       if (companiers.size() != 0){
         cout << "Do you want to see someone's infomation?" <<endl;
