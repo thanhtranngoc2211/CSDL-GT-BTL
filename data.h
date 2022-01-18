@@ -211,7 +211,7 @@ tuple <LinkedIn, vector<Node>> fetchData(LinkedIn g, vector<Node> a) {
     a.push_back(man);
 
     g.addNode();
-    man.id = 60;
+    man.id = 20;
     man.name = "Nguyen Duc An";
     man.dob = "28/07/2001";
     man.email = "an.nd01@gmail.com";
@@ -221,7 +221,7 @@ tuple <LinkedIn, vector<Node>> fetchData(LinkedIn g, vector<Node> a) {
     a.push_back(man);
     
     g.addNode();
-    man.id = 61;
+    man.id = 21;
     man.name = "Nguyen Ngoc Duong";
     man.dob = "04/11/2001";
     man.email = "duong.nn@gmail.com";
@@ -231,7 +231,7 @@ tuple <LinkedIn, vector<Node>> fetchData(LinkedIn g, vector<Node> a) {
     a.push_back(man);
   
     g.addNode();
-    man.id = 62;
+    man.id = 22;
     man.name = "Quang Thanh Dat";
     man.dob = "23/05/2001";
     man.email = "datqt@gmail.com";
@@ -241,7 +241,7 @@ tuple <LinkedIn, vector<Node>> fetchData(LinkedIn g, vector<Node> a) {
     a.push_back(man);
     
     g.addNode();
-    man.id = 63;
+    man.id = 23;
     man.name = "Nguyen Minh Hieu";
     man.dob = "24/12/2001";
     man.email = "hieu.nm@gmail.com";
@@ -251,74 +251,185 @@ tuple <LinkedIn, vector<Node>> fetchData(LinkedIn g, vector<Node> a) {
     a.push_back(man);
     
     g.addNode();
-    man.id = 61;
-    man.name = "Nguyen Ngoc Duong";
-    man.dob = "04/11/2001";
-    man.email = "duong.nn@gmail.com";
-    man.number = "0383458354";
+    man.id = 24;
+    man.name = "Nguyen Thi Dao";
+    man.dob = "1/07/2001";
+    man.email = "dao.nt@gmail.com";
+    man.number = "0393275621";
     man.field = "Engineer";
-    man.work = "Samsing";
+    man.work = "Pineapple";
     a.push_back(man);
-    
+
     g.addNode();
-    man.id = 61;
-    man.name = "Nguyen Ngoc Duong";
-    man.dob = "04/11/2001";
-    man.email = "duong.nn@gmail.com";
-    man.number = "0383458354";
+    man.id = 25;
+    man.name = "Phung Ba Truong Giang";
+    man.dob = "29/09/2001";
+    man.email = "giang.pbt@gmail.com";
+    man.number = "0989265154";
     man.field = "Engineer";
     man.work = "Samsing";
     a.push_back(man);
-    
+
     g.addNode();
-    man.id = 61;
-    man.name = "Nguyen Ngoc Duong";
-    man.dob = "04/11/2001";
-    man.email = "duong.nn@gmail.com";
-    man.number = "0383458354";
+    man.id = 26;
+    man.name = "Ho Ngoc Man";
+    man.dob = "26/04/2001";
+    man.email = "man.hn@gmail.com";
+    man.number = "0519542233";
     man.field = "Engineer";
     man.work = "Samsing";
     a.push_back(man);
-    
+
     g.addNode();
-    man.id = 61;
-    man.name = "Nguyen Ngoc Duong";
-    man.dob = "04/11/2001";
-    man.email = "duong.nn@gmail.com";
-    man.number = "0383458354";
+    man.id = 27;
+    man.name = "Pham Khuong Duy";
+    man.dob = "29/04/2001";
+    man.email = "duy.pk@gmail.com";
+    man.number = "0870253795";
     man.field = "Engineer";
     man.work = "Samsing";
     a.push_back(man);
+
     g.addNode();
-    
-    man.id = 61;
-    man.name = "Nguyen Ngoc Duong";
-    man.dob = "04/11/2001";
-    man.email = "duong.nn@gmail.com";
-    man.number = "0383458354";
+    man.id = 28;
+    man.name = "Bui Duc Duc";
+    man.dob = "10/03/2001";
+    man.email = "duc.bd@gmail.com";
+    man.number = "0402997864";
+    man.field = "Engineer";
+    man.work = "Pineapple";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 29;
+    man.name = "Le Minh Duc";
+    man.dob = "6/12/2001";
+    man.email = "duc.lm@gmail.com";
+    man.number = "0901471563";
+    man.field = "Engineer";
+    man.work = "NAVER";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 30;
+    man.name = "Nguyen Huy Hieu";
+    man.dob = "19/05/2001";
+    man.email = "hieu.nh@gmail.com";
+    man.number = "0837034234";
+    man.field = "Engineer";
+    man.work = "NAVER";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 31;
+    man.name = "Vu Van Linh";
+    man.dob = "3/12/2001";
+    man.email = "linh.vv@gmail.com";
+    man.number = "0371449804";
+    man.field = "Engineer";
+    man.work = "Pineapple";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 32;
+    man.name = "Pham Minh Hung";
+    man.dob = "12/06/2001";
+    man.email = "hung.pm@gmail.com";
+    man.number = "0686060142";
+    man.field = "Engineer";
+    man.work = "NAVER";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 33;
+    man.name = "Dong Minh Thai";
+    man.dob = "27/09/2001";
+    man.email = "thai.dm@gmail.com";
+    man.number = "0373746887";
     man.field = "Engineer";
     man.work = "Samsing";
     a.push_back(man);
-    
+
+    g.addNode();
+    man.id = 34;
+    man.name = "Nguyen Tien Thanh";
+    man.dob = "23/06/2001";
+    man.email = "thanh.nt@gmail.com";
+    man.number = "0513828339";
+    man.field = "Engineer";
+    man.work = "NAVER";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 35;
+    man.name = "Hua Hoang Vu";
+    man.dob = "23/09/2001";
+    man.email = "vu.hh@gmail.com";
+    man.number = "0764309784";
+    man.field = "Engineer";
+    man.work = "Pineapple";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 36;
+    man.name = "Nguyen Van Quang";
+    man.dob = "01/04/2001";
+    man.email = "quang.nv@gmail.com";
+    man.number = "0897530105";
+    man.field = "Engineer";
+    man.work = "Samsing";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 37;
+    man.name = "Tran Minh Tuan";
+    man.dob = "2/03/2001";
+    man.email = "tuan.tm@gmail.com";
+    man.number = "0795665243";
+    man.field = "Engineer";
+    man.work = "Pineapple";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 38;
+    man.name = "Le Minh Tuan";
+    man.dob = "13/11/2001";
+    man.email = "tuan.lm@gmail.com";
+    man.number = "0364579563";
+    man.field = "Engineer";
+    man.work = "Pineapple";
+    a.push_back(man);
+
+    g.addNode();
+    man.id = 39;
+    man.name = "Nguyen Van Minh";
+    man.dob = "21/09/2001";
+    man.email = "m.nv@gmail.com";
+    man.number = "0872747169";
+    man.field = "Engineer";
+    man.work = "Samsing";
+    a.push_back(man);
+
+    // em up phan
     
     w.papers = 10;
     w.years = 18;
-    g.addEdge("Tran Ngoc Thanh","Tran Mai Linh",a,w);
+    g.addEdge(0,"Tran Mai Linh",a,w);
     w.papers = 15;
     w.years = 3;
-    g.addEdge("Tran Ngoc Thanh","Dao Thi Huyen",a,w);
+    g.addEdge(0,"Dao Thi Huyen",a,w);
     w.papers = 0;
     w.years = 3;
-    g.addEdge("Tran Mai Linh","Nguyen Ngoc Mai Van",a,w);
+    g.addEdge(1,"Nguyen Ngoc Mai Van",a,w);
     w.papers = 3;
     w.years = 3;
-    g.addEdge("La Viet Hai","Dao Thi Huyen",a,w);
+    g.addEdge(4,"Dao Thi Huyen",a,w);
     w.papers = 0;
     w.years = 3;
-    g.addEdge("Tran Ngoc Thanh","Nguyen Ngoc Mai Van",a,w);
+    g.addEdge(0,"Nguyen Ngoc Mai Van",a,w);
     w.papers = 0;
     w.years = 2;
-    g.addEdge("La Viet Hai","Nguyen Ngoc Mai Van",a,w);
+    g.addEdge(4,"Nguyen Ngoc Mai Van",a,w);
 
 
     return make_tuple(g, a);
