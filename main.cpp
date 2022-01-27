@@ -20,10 +20,11 @@
 #include "Login.h"
 #include "Weight.h"
 #include "Register.h"
-#include "data.h"
+#include <fstream>
 using namespace std;
 
 int main() {
+  int man_id = 0;
   LinkedIn g;
   Node man;
   int id;
@@ -40,7 +41,54 @@ int main() {
 
   // Load data
   cout << "-----------Fetching Data----------" <<endl;
-  tie(g,a) = fetchData(g,a);
+  std::ifstream input("E:/Code Visual/C/CSDL-GT-BTL-main/data.txt");
+
+  if(input.fail()){
+    std::cout << "Failed to open this file!" << std::endl;
+    return -1;
+  }
+
+  // read data
+  while(!input.eof()){
+    char temp[255];
+    input.getline(temp, 255);
+    std::string line = temp;
+    if(line == ""){
+      break;
+    }
+    else {
+      bool man_end = false;
+      bool man_info = true;
+      while (man_end != true) {
+        g.addNode();
+        man.id = man_id;
+        man_id ++;
+
+        while(man_info){
+          man.name = line;
+          input.getline(temp, 255);
+          line = temp;
+          man.dob = line;
+          input.getline(temp, 255);
+          line = temp;
+          man.email = line;
+          input.getline(temp, 255);
+          line = temp;
+          man.number = line;
+          input.getline(temp, 255);
+          line = temp;
+          man.field = line;
+          input.getline(temp, 255);
+          line = temp;
+          man.work = line;
+          man_info = false;
+      }
+      a.push_back(man);
+      man_end = true;
+      }
+    }
+  }
+  input.close();
 
   while (open){
     cout << "-------------LinkedIn-------------" <<endl;
@@ -102,7 +150,7 @@ int main() {
       }
     }
     if(control == 2){
-      register_user(a, g);
+      tie(a,g) = register_user(a, g);
     }
     if(control == 3){
       cout << "Nhap ten cong ty: " <<endl;
